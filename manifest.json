@@ -13,6 +13,7 @@
 		"bin-debug/Main.js",
 		"bin-debug/Platform.js",
 		"bin-debug/ThemeAdapter.js",
+		"bin-debug/event/ArrayIteratorChangedEvent.js",
 		"bin-debug/struct/ArrayAdapter.js",
 		"bin-debug/struct/ArrayAdapterIterator.js",
 		"bin-debug/view/ArrayIteratorRender.js",

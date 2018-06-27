@@ -29,6 +29,15 @@
 
 class Main extends eui.UILayer {
 
+    private arrayAdapter: ArrayAdapter;
+    private iterator: ArrayAdapterIterator;
+
+    constructor() {
+        super();
+
+        this.arrayAdapter = new ArrayAdapter([1,2,3,4,5,6]);
+        this.iterator = this.arrayAdapter.getIterator();
+    }
 
     protected createChildren(): void {
         super.createChildren();
@@ -61,7 +70,7 @@ class Main extends eui.UILayer {
         await this.loadResource()
         this.createGameScene();
         const result = await RES.getResAsync("description_json")
-        this.startAnimation(result);
+        //this.startAnimation(result);
         await platform.login();
         const userInfo = await platform.getUserInfo();
         console.log(userInfo);
@@ -94,11 +103,6 @@ class Main extends eui.UILayer {
         })
     }
 
-    private textfield: egret.TextField;
-    private nums: egret.TextField[] = [];
-    private offset_x: number;
-    private item_length = 100;
-
     /**
      * 创建场景界面
      * Create scene interface
@@ -113,16 +117,23 @@ class Main extends eui.UILayer {
         bg.graphics.endFill();
         this.addChild(bg);
 
-        let arrayAdapter = new ArrayAdapter([1,2,3,4,5,6]);
-        let arrayRenderer = new ArrayRenderer(arrayAdapter);
+        let arrayRenderer = new ArrayRenderer(this.arrayAdapter);
         this.addChild(arrayRenderer);
         arrayRenderer.render();
+
+        let iteratorRenderer = arrayRenderer.createIteratorRenderer();
+        this.addChild(iteratorRenderer);
+        iteratorRenderer.render();
+
+        setTimeout(function() {
+            iteratorRenderer.moveToNext();
+        }, 3000);
 
         let button = new eui.Button();
         button.name = 'click';
         button.width = 100;
         button.height = 50;
-        button.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onButtonClick, this);
+        //button.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onButtonClick, this);
         this.addChild(button);
     }
     /**
@@ -139,6 +150,7 @@ class Main extends eui.UILayer {
      * 描述文件加载成功，开始播放动画
      * Description file loading is successful, start to play the animation
      */
+    /*
     private startAnimation(result: Array<any>): void {
         let parser = new egret.HtmlTextParser();
 
@@ -163,5 +175,11 @@ class Main extends eui.UILayer {
         };
 
         change();
+    }
+    */
+
+    public onButtonClick(event: egret.TouchEvent) {
+        
+        this.invalidateParentLayout();
     }
 }
